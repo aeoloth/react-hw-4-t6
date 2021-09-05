@@ -2,10 +2,9 @@ import React, { Component, useState } from "react";
 import "./App.css";
 
 function Table(props) {
-  console.log(props.boolfalse); // false
   const [days, setDays] = useState(props.worker.days);
   const [stake, setStake] = useState(props.worker.stake);
-
+  
   return (
     <tr>
       <td>{props.worker.name}</td>
@@ -29,33 +28,34 @@ function Table(props) {
   );
 }
 
-class App extends Component {
-
+ class App extends Component {
   static getDerivedStateFromProps(props, state) {
-    console.log(state);
-    return {workers: props.workers}
-  }
- 
-  
-  constructor(props) {
-    super(props);
-    this.state = {
-      whoAmI: 'ok'
-    }
+    // console.log(state);
+    return { workers: props.workers };
   }
 
   renderTable() {
     return this.state.workers.map((worker) => {
       return (
-        <Table boolfalse={false}
+        <Table 
           worker={worker}
           key={worker.name + worker.lastname + Math.random()}
         />
-        
       );
     });
   }
 
+  countSalary() {
+    var initialValue = 0;
+    return this.state.workers.reduce((accumulator, currentValue) => {
+      // console.log(accumulator);
+      // console.log(currentValue.days);
+      // console.log(currentValue.stake);
+      // console.log(currentValue);
+
+      return +accumulator + currentValue.days * currentValue.stake;
+    }, initialValue);
+  }
 
   render() {
     return (
@@ -71,8 +71,8 @@ class App extends Component {
             </tr>
           </thead>
           <tbody>{this.renderTable()}</tbody>
-          <tfooter>{}</tfooter>
         </table>
+        <h3>Общая сумма заработной платы: {this.countSalary()}</h3>
       </div>
     );
   }
