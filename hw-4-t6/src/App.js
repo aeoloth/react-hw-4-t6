@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { Component, useState } from "react";
 import "./App.css";
 
 function Table(props) {
+  console.log(props.boolfalse); // false
   const [days, setDays] = useState(props.worker.days);
   const [stake, setStake] = useState(props.worker.stake);
 
@@ -23,37 +24,38 @@ function Table(props) {
           onChange={(e) => setStake(e.target.value)}
         />
       </td>
-      <td>{days * stake}</td>
+      <td>{+days * +stake}</td>
     </tr>
   );
 }
 
-class App extends React.Component {
+class App extends Component {
+
+  static getDerivedStateFromProps(props, state) {
+    console.log(state);
+    return {workers: props.workers}
+  }
+ 
+  
   constructor(props) {
     super(props);
-
     this.state = {
-      workers: [
-        { name: "Ivan", lastname: "Ivanov", days: 22, stake: 1500 },
-        { name: "Petr", lastname: "Petrov", days: 21, stake: 1600 },
-        { name: "Ivan", lastname: "Sidorov", days: 20, stake: 1400 },
-        { name: "Sidor", lastname: "Kuznetsov", days: 24, stake: 1770 },
-        { name: "Vasiliy", lastname: "Pupkin", days: 23, stake: 1600 },
-        { name: "Valeriy", lastname: "Makarov", days: 22, stake: 1200 },
-      ],
-    };
+      whoAmI: 'ok'
+    }
   }
 
   renderTable() {
     return this.state.workers.map((worker) => {
       return (
-        <Table
+        <Table boolfalse={false}
           worker={worker}
           key={worker.name + worker.lastname + Math.random()}
         />
+        
       );
     });
   }
+
 
   render() {
     return (
@@ -69,6 +71,7 @@ class App extends React.Component {
             </tr>
           </thead>
           <tbody>{this.renderTable()}</tbody>
+          <tfooter>{}</tfooter>
         </table>
       </div>
     );
